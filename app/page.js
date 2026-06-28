@@ -1,65 +1,142 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import NavBar from "./navbar";
+import { useState, useRef, useEffect } from "react";
+
+const cards = [
+  {
+    name: "Italian Tiramisu",
+    descr: "Layers of espresso-soaked ladyfingers, velvety mascarpone cream, and a dusting of dark cocoa — Dolce's most beloved classic.",
+    image: "/p1.jpg",
+  },
+  {
+    name: "Brookie Blast",
+    descr: "A warm brownie-cookie fusion, topped with a scoop of vanilla cream drizzled with dark chocolate sauce — served with a side pour of rich chocolate gravy.",
+    image: "/p2.jpg",
+  },
+  {
+    name: "Mango Tres Leches",
+    descr: "A tropical twist on the classic — layers of soft cake soaked in three milks, topped with fresh mango chunks, chocolate crumble, and a warm mango pour-over sauce.",
+    image: "/p4.jpg",
+  },
+  {
+    name: "Carrot Cake",
+    descr: "A moist, spiced carrot cake layered with velvety cream cheese frosting, finished with a hand-piped carrot garnish and chocolate crumble dusting.",
+    image: "/p5.jpg",
+  },
+  {
+    name: "Blueberry Serradura",
+    descr: "A Portugese-inspired layered dessert — alternating bands of whipped cream and buscuit crumble, crowned with a vibrant compote, gold dust, and fresh mint.",
+    image: "/p6.jpg",
+  },
+  {
+    name: "Nutella Cheesecake",
+    descr: "A silky baked cheesecake with a buttery biscuit base, topped with a rich Nutella glaze and delicate chocolate swirls — adorned with a hand crafter red sugar tuile and cocoa mandala dusting.",
+    image: "/p7.jpg",
+  },
+  {
+    name: "Blueberry Cheesecake",
+    descr: "A creamy baked cheesecake on a dark biscuit base, generously topped with a glossy blueberry compote — plated with piped cream rosettes, biscuit crumble, and a fresh mint sprig.",
+    image: "/p8.jpg",
+  },
+]
+
+function Card({ name, descr, image }) {
+  const ref = useRef(null)
+  const [flipped, setFlipped] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setFlipped(true)
+      },
+      { threshold: 1.0 }
+    )
+
+    if (ref.current) observer.observe(ref.current)
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div ref={ref} className="card-flip">
+      <div className={`card-inner ${flipped ? 'flipped' : ''}`}>
+
+        <div className="card-back">
+          <span className="font-cormorant text-white/20 tracking-widest text-sm">
+            DOLCE
+          </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <div className="card-front border border-white/10 p-6 flex justify-between items-center md:grid md:grid-cols-[1fr_1.5fr] md:gap-8 gap-4 backdrop-blur-md">
+
+          <div className="w-full flex flex-col gap-4">
+            <h3 className="text-3xl text-[#F0EDE6] md:text-5xl font-cormorant italic">
+              {name}
+            </h3>
+
+            <p className="text-xs font-inter md:text-sm tracking-wider text-[#7A9E87]">
+              {descr}
+            </p>
+          </div>
+
+          <div className="w-full md:h-64">
+            <img
+              src={image}
+              alt={name}
+              className="rounded-sm w-full h-full md:object-contain md:rounded-lg object-cover"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
         </div>
-      </main>
+
+      </div>
     </div>
-  );
+  )
+}
+
+
+export default function Home(){
+  return(
+    <div className="min-h-screen w-full flex flex-col bg-[#050D08]">
+
+      <NavBar/>
+
+      <section className="w-full min-h-screen px-4 py-8 md:mt-44 flex flex-col text-center z-10 mt-36">
+        <div className="w-full h-fit">
+          <h1 className="font-cormorant opacity-0 animate-fade-up text-7xl md:text-9xl text-[#E8DDD0] uppercase tracking-wider">Dolce</h1>
+          <p className="text-[#7A9E89] opacity-0 animate-fade-left [animation-delay:600ms] mt-2 font-inter tracking-widest md:text-lg text-xs">Bistro & Patisserie</p>
+        </div>
+
+        <div className="bg-[#8B5E2A] w-40 h-40 rounded-full blur-[40px] opacity-[0.3] mx-auto -mt-12 z-0"/>
+
+        <img
+          src="/table.png"
+          height={300}
+          width={300}
+          className="w-[600px] -rotate-[3deg] -mt-40 z-0 md:mx-auto md:-mt-56"
+        />
+
+<div className="opacity-0 animate-fade-up [animation-delay:1400ms] flex items-center gap-6 mt-16 px-4">
+  <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#FFFFFF]/50" />
+
+  <h2 className="text-[#FFFFFF]/50 tracking-wider font-inter text-sm whitespace-nowrap">
+    Our Favourites
+  </h2>
+
+  <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#FFFFFF]/50" />
+</div>
+      </section>
+
+      <section id="fav" className="w-full h-fit px-4 py-16 -mt-48 flex flex-col md:mt-24">
+
+      <div>
+        {cards.map((card) => (
+          <Card key={card.name} {...card} />
+        ))}
+      </div>
+
+      </section>
+    </div>
+  )
 }
