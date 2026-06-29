@@ -10,6 +10,11 @@ const cards = [
     image: "/p1.jpg",
   },
   {
+    name: "Entremet",
+    descr: "A show-stopping French dessert — a delicate matcha dome resting in a vivid blue mirror glaze, sculpted with a dark chocolate tree rising from within. Where pastry becomes art.",
+    image: "/p9.jpg",
+  },
+  {
     name: "Brookie Blast",
     descr: "A warm brownie-cookie fusion, topped with a scoop of vanilla cream drizzled with dark chocolate sauce — served with a side pour of rich chocolate gravy.",
     image: "/p2.jpg",
@@ -50,7 +55,7 @@ function Card({ name, descr, image }) {
       ([entry]) => {
         if (entry.isIntersecting) setFlipped(true)
       },
-      { threshold: 1.0 }
+      { threshold: 0.7 }
     )
 
     if (ref.current) observer.observe(ref.current)
@@ -137,6 +142,17 @@ export default function Home(){
       </div>
 
       </section>
+      <footer className="bg-[#C9A96E] py-10 px-6 text-center text-[#0A1510]">
+        <p className="font-cormorant mb-1 text-2xl text-[#0A1510] tracking-wider">DOLCE</p>
+        <p className="text-[9px] text-[#1A3024] font-inter tracking-widest mb-6">BISTRO & PATISSERIE · FINE DINING · NASHIK</p>
+        <div className="flex justify-center gap-6 text-[#1b382b]/80 mb-6 font-inter text-sm tracking-widest">
+          <a href="https://instagram.com/dolceby21st" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://zomato.onelink.me/xqzv/7nmvbt23" target="_blank" rel="noopener noreferrer">Zomato</a>
+        </div>
+
+        <p className="font-cormorant text-xs tracking-widest text-[#0A1510]/60">© DOLCE {new Date().getFullYear()}</p>
+
+      </footer>
     </div>
   )
 }
